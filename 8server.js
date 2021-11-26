@@ -101,24 +101,23 @@ app.get('/info', function (req, res) {
 });
 
 app.post('/handleUpload', function (req, res) {
-  //console.log(req.body);
- // let form = formidable({});
- // form.keepExtensions = true;
- // form.multiples = true;
- // form.uploadDir = __dirname + '/static/upload/';
+  let form = formidable({});
+  form.keepExtensions = true;
+  form.multiples = true;
+  form.uploadDir = __dirname + '/static/upload/';
 
- // form.parse(req, function (err, fields, files) {
- //   if (Array.isArray(files.filename)) {
- //     for (var i = 0; i < files.filename.length; i++) {
+  form.parse(req, function (err, fields, files) {
+    if (Array.isArray(files.filename)) {
+      for (var i = 0; i < files.filename.length; i++) {
         context.tab.push(files.filename[i]);
-  //    }
-  //  } else {
-     // context.tab.push(files.filename)
+      }
+    } else {
+      context.tab.push(files.filename)
 
-  //  }
- // });
+    }
+  });
 
-  res.render('upload.hbs');
+ // res.render('upload.hbs');
 });
 
 
