@@ -116,8 +116,6 @@ app.post('/handleUpload', function (req, res) {
 
     }
   });
-
-  res.redirect("/")
 });
 
 
