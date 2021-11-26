@@ -1,0 +1,157 @@
+<div id="rodzic">
+    <h1>Baza NEDB</h1>
+    <div id="dziecko1">
+        <form action="/handleForm" method="POST">
+            <p id="tytul">Dane pojazdu:</p>
+            <table id="tab1">
+
+                <tr>
+                    <td>ubezpieczony:</td>
+                    <td><input type="checkbox" name="ubez" value="TAK" class="check" id="ubez"> </td>
+                </tr>
+                <tr>
+                    <td>benzyna:</td>
+                    <td><input type="checkbox" name="benz" value="TAK" class="check" id="benz"> </td>
+                </tr>
+                <tr>
+                    <td>uszkodzony:</td>
+                    <td><input type="checkbox" name="uszk" value="TAK" class="check" id="uszk"> </td>
+                </tr>
+                <tr>
+                    <td>napęd 4x4:</td>
+                    <td><input type="checkbox" name="nap" value="TAK" class="check" id="nap"> </td>
+                </tr>
+            </table>
+            <br>
+
+            <input type="submit" value="DODAJ DO BAZY" id="bt1">
+        </form>
+    </div>
+
+    <div id="dziecko2">
+        <p id="tytul">Wszystkie pojazdy:</p>
+        <table id="tab2">
+            <tr>
+                <td style="width: 10%;"></td>
+                <td style="width: 15%;">ubezpieczony</td>
+                <td style="width: 15%;">benzyna</td>
+                <td style="width: 15%;">uszkodzony</td>
+                <td style="width: 15%;">napęd 4x4</td>
+                <td style="width: 15%;"></td>
+                <td style="width: 15%;"></td>
+            </tr>
+        </table>
+        <table id="tab3">
+
+            {{#each obiekty}}
+            <tr>
+                <td style="width: 10%;"> {{@index}} </td>
+                <td style="width: 15%;">
+                    {{ubezpieczony}}
+                </td>
+                <td style="width: 15%;">
+                    {{benzyna}}
+                </td>
+                <td style="width: 15%;">
+                    {{uszkodzony}}
+                </td>
+                <td style="width: 15%;">
+                    {{naped}}
+                </td>
+
+                <td style="width: 15%;">
+                    <form action="/usun" method="POST">
+                        <input type="hidden" name="delete1" value={{_id}}>
+                        <button class="delete" name="delete" id={{_id}}
+                            onclick="return confirm('Czy usunąć')">DELETE</button>
+                    </form>
+                </td>
+                <td style="width: 15%;"><button class="edit" name="edit" id={{_id}}>EDIT</button>
+                </td>
+
+            </tr>
+            {{/each}}
+
+        </table>
+
+    </div>
+</div>
+
+<script>
+
+
+    var k = document.getElementsByClassName('edit');
+    for (var i = 0; i < k.length; i++) {
+        k[i].addEventListener("click", edytuj)
+    }
+
+    function edytuj(e) {
+        var id = e.currentTarget.id;
+        console.log(id);
+        var komorka = e.currentTarget.parentNode
+        var wiersz = komorka.parentNode;
+        var dzieci = wiersz.children
+
+        for (var i = 1; i < 5; i++) {
+            dzieci[i].innerText = " ";
+            var select = document.createElement("select");
+            select.id = "select" + i.toString();
+            select.name = "select" + i.toString();
+            dzieci[i].appendChild(select);
+            var option1 = document.createElement("option");
+            option1.value = "TAK";
+            option1.innerText = "TAK"
+            document.getElementById("select" + i.toString()).appendChild(option1);
+            var option2 = document.createElement("option");
+            option2.value = "NIE";
+            option2.innerText = "NIE"
+            document.getElementById("select" + i.toString()).appendChild(option2);
+            var option3 = document.createElement("option");
+            option3.value = "BRAKDANYCH";
+            option3.innerText = "BRAKDANYCH"
+            document.getElementById("select" + i.toString()).appendChild(option3);
+        }
+
+
+        var cancel = document.createElement("button");
+        cancel.className = "delete";
+        cancel.innerText = "CANCEL";
+        cancel.onclick = function () {
+            window.location.reload(true)
+        };
+        dzieci[6].innerText = " ";
+        dzieci[6].appendChild(cancel);
+
+
+        var edit = document.createElement("button");
+        edit.className = "update";
+        edit.innerText = "UPDATE";
+        edit.name = "update";
+        edit.onclick = function () {
+            var ubez = document.getElementById("select1").value
+            var benz = document.getElementById("select2").value
+            var uszk = document.getElementById("select3").value
+            var nap = document.getElementById("select4").value
+
+            const body = JSON.stringify({ ubez: ubez, benz: benz, uszk: uszk, nap: nap, id: id }); // body czyli przesyłane na serwer dane
+
+            const headers = { 'Content-Type': 'application/json' }; // nagłowek czyli typ danych
+
+            fetch('/edit', { method: 'post', body, headers }) // fetch
+                .then((response) => response.json())
+                .then(
+                    (data) => window.location.reload(true)
+
+                );
+
+        };
+        dzieci[5].innerText = " ";
+        dzieci[5].appendChild(edit);
+
+
+
+    }
+
+
+
+</script>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/samochody.css">
+    <title>Document</title>
+</head>
+<div id="rodzic">
+    <h1>Baza NEDB</h1>
+    <div id="dziecko1">
+        <p id="tytul">Dane pojazdu:</p>
+        <table id="tab1">
+            <tr>
+                <td>ubezpieczony:</td>
+                <td><input type="checkbox" class="check" id="ubez"> </td>
+            </tr>
+            <tr>
+                <td>benzyna:</td>
+                <td><input type="checkbox" class="check" id="benz"> </td>
+            </tr>
+            <tr>
+                <td>uszkodzony:</td>
+                <td><input type="checkbox" class="check" id="uszk"> </td>
+            </tr>
+            <tr>
+                <td>napęd 4x4:</td>
+                <td><input type="checkbox" class="check" id="nap"> </td>
+            </tr>
+        </table>
+        <br>
+        <button id="bt1">Dodaj do bazy</button>
+    </div>
+
+    <div id="dziecko2">
+        <p id="tytul">Wszystkie pojazdy:</p>
+        <table id="tab2">
+            <tr>
+                <td style="width: 50px;"></td>
+                <td style="width: 125px;">ubezpieczony</td>
+                <td style="width: 125px;">benzyna</td>
+                <td style="width: 125px;">uszkodzony</td>
+                <td style="width: 125px;">naped 4x4</td>
+                <td style="width: 125px;"></td>
+                <td style="width: 125px;"></td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+<script>
+
+
+    document.getElementById('bt1').onclick = function () {
+        console.log("wysyl");
+        fetchPost();
+    };
+
+
+
+    function fetchPost() {
+        let ubez = document.getElementById("ubez").checked;
+        let benz = document.getElementById("benz").checked;
+        let uszk = document.getElementById("uszk").checked;
+        let nap = document.getElementById("nap").checked;
+        if (ubez == true) {
+            ubez = "TAK";
+        }
+        else {
+            ubez = "NIE";
+        }
+        if (benz == true) {
+            benz = "TAK";
+        }
+        else {
+            benz = "NIE";
+        }
+        if (uszk == true) {
+            uszk = "TAK";
+        }
+        else {
+            uszk = "NIE";
+        }
+        if (nap == true) {
+            nap = "TAK";
+        }
+        else {
+            nap = "NIE";
+        }
+
+
+
+        const body = JSON.stringify({ ubez: ubez, benz: benz, uszk: uszk, nap: nap }); // body czyli przesyłane na serwer dane
+
+        const headers = { 'Content-Type': 'application/json' }; // nagłowek czyli typ danych
+
+        fetch('/api', { method: 'post', body, headers }) // fetch
+            .then((response) => response.json())
+            .then(
+                (data) => console.log(data) // dane odpowiedzi z serwera
+            );
+    }
+
+
+</script>
+
+</body>
+
+</html>

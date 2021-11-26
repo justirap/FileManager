@@ -1,0 +1,73 @@
+td{
+    border: 1px solid black;
+}
+
+#rodzic{
+    position: relative;
+}
+
+#dziecko1{
+    width: 30%;
+    float: left;
+    
+}
+#dziecko2{
+    width: 70%;
+    float: left;
+   
+}
+#bt1{
+    border-radius: 10px;
+    border-color: royalblue;
+    color: royalblue;
+    width: 150px;
+    height: 50px;
+    margin-left: 75px;
+}
+#tab1{
+    height: 300px;
+    width: 300px;
+    color: royalblue;
+    text-align: center;
+    font-size: large;
+}
+#tytul{
+    color: gray;
+    text-decoration: underline;
+}
+
+.check{
+    height: 20px;
+    width: 20px;
+}
+
+#tab2{
+    height: 50px;
+    width: 830px;
+    color: royalblue;
+    text-align: center;
+    font-size: large;
+}
+#tab3{
+    width: 830px;
+    text-align: center;
+    font-size: large;
+}
+
+.delete{
+    border-radius: 10px;
+    border-color: royalblue;
+    color: royalblue;
+}
+
+.edit{
+    border-radius: 10px;
+    border-color: red;
+    color: red;
+}
+
+.update{
+    border-radius: 10px;
+    border-color: pink;
+    color: pink;
+}

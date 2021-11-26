@@ -1,0 +1,67 @@
+html, body{
+    height: 100%;
+}
+
+#szary{
+    background-color: lightgray;
+    position: relative;
+    float:left;
+    width: 30%;
+    height: 80%;
+}
+
+#niebieski{
+    background-color: royalblue;
+    height: 10%;
+}
+
+#bialy{
+    position: relative;
+    float: left;
+    margin: 50px;
+}
+
+#bialy1{
+    position: relative;
+    float: left;
+    width: 70%;
+}
+
+
+#multi{
+    color: gray;
+    position: relative;
+    left: 25%;
+}
+
+.a1{
+    font-size: large;
+    margin: 5%;
+    color: white;
+    position: relative;
+    top: 30%;
+}
+
+#tab1{
+    width: 100%;
+    background-color: lightblue;
+    color: white;
+}
+td{
+    width: 12.5%;
+    text-align: center;
+}
+
+#tab2{
+    width: 100%;
+}
+
+.a2{
+    color: gray;
+}
+
+#usun{
+    color: gray;
+    position: relative;
+    left: 10%;
+}

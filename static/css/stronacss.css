@@ -1,0 +1,48 @@
+
+#dziecko1 {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+
+#dziecko2 {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+button {
+  margin: 10px;
+}
+
+.nieb{
+    border-radius: 10px;
+    border-color: royalblue;
+    color: royalblue;
+    width: 250px;
+    height: 30px;
+}
+
+h1{
+   text-decoration: underline;
+}
+
+#bt3{
+    border-radius: 10px;
+    border-color: red;
+    color: red;
+    width: 250px;
+    height: 30px;
+}
+
+#bt4{
+    border-radius: 10px;
+    border-color: pink;
+    color: pink;
+    width: 250px;
+    height: 30px;
+}
+
+#area{
+  width: 350px;
+  height: 400px;
+}

@@ -1,0 +1,35 @@
+<div id="szary">
+    <h1 id="multi">filemanager</h1>
+    <a id="usun" href="/filemanager?usun=wszystko">USUŃ DANE O PLIKACH Z TABLICY</a>
+</div>
+<div id="bialy1">
+    <table id="tab1">
+        <tr>
+            <td>id</td>
+            <td>obraz</td>
+            <td>name</td>
+            <td>size</td>
+            <td>type</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+    </table>
+    <table id="tab2">
+        {{#each tab}}
+        <tr>
+            <td>{{indeks @index}}</td>
+            <td>
+                <img src="{{zdjecie type}}"> </img>
+            </td>
+            <td>{{name}}</td>
+            <td>{{size}}</td>
+            <td>{{type}}</td>
+            <td><a class="a2" href="/filemanager?id={{@index}}&&a=d">DELETE</a></td>
+            <td><a class="a2" href="/filemanager?id={{@index}}&&a=i">INFO</a></td>
+            <td><a class="a2" href="/filemanager?id={{@index}}&&a=dow">DOWNLOAD</a></td>
+        </tr>
+        {{/each}}
+
+    </table>
+</div>

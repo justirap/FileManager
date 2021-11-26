@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/stronacss.css">
+  <title>Document</title>
+</head>
+<div id="rodzic">
+  <h1>MongoDB - CRUD</h1>
+  <div id="dziecko1">
+    <input id="nazwa" type="text" placeholder="login">
+    <br><br>
+    <input id="haslo" type="password" placeholder="haslo">
+    <br><br>
+    <button id="bt1" class="nieb">+ dodaj usera</button>
+    <br>
+    <button id="bt2" class="nieb"> odswiez userow</button>
+  </div>
+
+  <div id="dziecko2">
+    <select id="select" class="nieb"></select>
+    <br><br>
+    <button id="bt3"> usun usera</button>
+    <br>
+    <button id="bt4"> zaktualizuj haslo</button>
+    <br><br>
+    <textarea id="area">
+
+    </textarea>
+
+
+  </div>
+</div>
+
+<script>
+  var tablica;
+
+  let nazwa = document.getElementById("nazwa");
+  let haslo = document.getElementById("haslo");
+
+  document.getElementById('bt1').onclick = function () {
+
+    fetchPost();
+
+  };
+
+  document.getElementById('bt2').onclick = function () {
+    fetchPost2();
+  };
+
+  document.getElementById('bt3').onclick = function () {
+    usun();
+  };
+
+  document.getElementById('bt4').onclick = function () {
+    aktualizuj();
+  };
+
+
+
+
+  async function fetchPost() {
+    const body = JSON.stringify({ nazwa: nazwa.value, haslo: haslo.value }); // body czyli przesyłane na serwer dane
+
+    const headers = { 'Content-Type': 'application/json' }; // nagłowek czyli typ danych
+
+    await fetch('/api', { method: 'post', body, headers }) // fetch
+      .then((response) => response.json())
+      .then(
+        (data) => console.log(data) // dane odpowiedzi z serwera
+      );
+    nazwa.value = "";
+    haslo.value = "";
+  }
+
+  async function fetchPost2() {
+    const body = JSON.stringify({ nazwa: "cos" }); // body czyli przesyłane na serwer dane
+
+    const headers = { 'Content-Type': 'application/json' }; // nagłowek czyli typ danych
+
+    await fetch('/odswiez', { method: 'post', body, headers }) // fetch
+      .then((response) => response.json())
+      .then(res => {
+        tablica = res.a
+      })
+
+    document.getElementById("area").value = JSON.stringify(tablica, null, 5)
+
+    var select = document.getElementById("select");
+    select.innerText = " ";
+    for (var i = 0; i < tablica.length; i++) {
+      var opcja = document.createElement("option")
+      opcja.value = tablica[i]._id;
+      opcja.innerText = tablica[i]._id;
+      select.appendChild(opcja);
+    }
+
+  }
+
+  async function usun() {
+    var select = document.getElementById("select");
+    var id = select.value;
+
+    var czy = confirm('Czy usunąć ' + id.toString() + ' ?')
+
+    if (czy == true) {
+      const body = JSON.stringify({ id: id }); // body czyli przesyłane na serwer dane
+
+      const headers = { 'Content-Type': 'application/json' }; // nagłowek czyli typ danych
+
+      await fetch('/usun', { method: 'post', body, headers }) // fetch
+        .then((response) => response.json())
+        .then(
+          (data) => console.log(data) // dane odpowiedzi z serwera
+        );
+    }
+  }
+
+
+  async function aktualizuj() {
+    var select = document.getElementById("select");
+    var id = select.value;
+    var haslo = document.getElementById("haslo").value;
+
+    const body = JSON.stringify({ id: id, haslo: haslo }); // body czyli przesyłane na serwer dane
+
+    const headers = { 'Content-Type': 'application/json' }; // nagłowek czyli typ danych
+
+    await fetch('/aktualizuj', { method: 'post', body, headers }) // fetch
+      .then((response) => response.json())
+      .then(
+        (data) => console.log(data) // dane odpowiedzi z serwera
+      );
+    document.getElementById("haslo").value = "";
+  }
+
+
+</script>
+
+</body>
+
+</html>

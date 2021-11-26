@@ -1,0 +1,140 @@
+from tkinter import *
+import requests
+import json
+
+root = Tk()
+root.title("Air quality")
+
+# centrowanie okna na ekranie
+appWidth = 500
+appHeight = 400
+
+screenWidth = root.winfo_screenwidth()
+screenHeight = root.winfo_screenheight()
+
+x = (screenWidth / 2) - (appWidth / 2)
+y = (screenHeight / 2) - (appHeight / 2)
+
+root.geometry(f'{appWidth}x{appHeight}+{int(x)}+{int(y)}')
+
+def OkienkoZmianyLokalizacji():
+    apiRequestsCity = requests.get("http://api.gios.gov.pl/pjp-api/rest/station/findAll")
+    apiCity = json.loads(apiRequestsCity.content)
+    modes = [
+        (apiCity[116]['stationName'], "116"),
+        (apiCity[117]['stationName'], "117"),
+        (apiCity[118]['stationName'], "118"),
+        (apiCity[119]['stationName'], "119"),
+        (apiCity[120]['stationName'], "120"),
+        (apiCity[121]['stationName'], "121")
+    ]
+
+    lokalizacja = StringVar()
+    lokalizacja.set("lokalizacja")
+
+
+    top = Toplevel()
+    top.title("Top Window")
+    top.geometry("300x300")
+    for text, mode in modes:
+        Radiobutton(top, text=text, variable=lokalizacja, value=mode).pack(anchor=W)
+    myButton123 = Button(top, text="Sprawdź!", command=lambda:ZmianaStacji(lokalizacja.get())).pack()
+    
+root.configure(background='white')
+myButton = Button(root, text="Wybierz lokalizacje", command=OkienkoZmianyLokalizacji()).pack()
+    
+def DaneStacji(value):
+    global cityLabel
+    global co2LabelName
+    global co2LabelValue
+    global pm10LabelName
+    global pm10LabelValue
+    global pm25LabelName
+    global pm25LabelValue
+    
+    try:
+        apiRequestsCity = requests.get("http://api.gios.gov.pl/pjp-api/rest/station/findAll")
+        apiCity = json.loads(apiRequestsCity.content)
+        city = apiCity[int(value)]['stationName']
+
+        apiRequestsSensors = requests.get("http://api.gios.gov.pl/pjp-api/rest/station/sensors/400")
+        apiSensors = json.loads(apiRequestsSensors.content)
+        co2 = apiSensors[0]['param']['paramName']
+        pm10 = apiSensors[2]['param']['paramName']
+        pm25 = apiSensors[3]['param']['paramName']
+
+        apiValue = requests.get("http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/400")
+        apiValue = json.loads(apiValue.content)
+        co2Value = apiValue['coIndexLevel']['indexLevelName']
+        pm10Value = apiValue['pm10IndexLevel']['indexLevelName']
+        pm25Value = apiValue['pm25IndexLevel']['indexLevelName']
+
+        cityLabel = Label(root, text=city, background='white', font=('Helvetica', 20))
+        cityLabel.pack()
+        
+        if co2Value == 'Bardzo dobry':
+            color = 'green'
+        elif co2Value == 'Dobry':
+            color = 'lightgreen'
+        elif co2Value == 'Umiarkowany':
+            color = 'yellow'
+        elif co2Value == 'Dostateczny':
+            color = 'orange'
+        elif co2Value == 'Zły':
+            color = 'red'
+        
+        co2LabelName = Label(root, text=co2, background= color, font=('Helvetica', 20))
+        co2LabelName.pack()
+        co2LabelValue = Label(root, text=co2Value, background= color, font=('Helvetica', 20))
+        co2LabelValue.pack()
+    
+        if pm10Value == 'Bardzo dobry':
+            color = 'green'
+        elif pm10Value == 'Dobry':
+            color = 'lightgreen'
+        elif pm10Value == 'Umiarkowany':
+            color = 'yellow'
+        elif pm10Value == 'Dostateczny':
+            color = 'orange'
+        elif pm10Value == 'Zły':
+            color = 'red'
+        
+        pm10LabelName = Label(root, text=pm10, background= color, font=('Helvetica', 20))
+        pm10LabelName.pack()
+        pm10LabelValue = Label(root, text=pm10Value, background= color, font=('Helvetica', 20))
+        pm10LabelValue.pack()
+        
+        if pm25Value == 'Bardzo dobry':
+            color = 'green'
+        elif pm25Value == 'Dobry':
+            color = 'lightgreen'
+        elif pm25Value == 'Umiarkowany':
+            color = 'yellow'
+        elif pm25Value == 'Dostateczny':
+            color = 'orange'
+        elif pm25Value == 'Zły':
+            color = 'red'
+            
+        
+        pm25LabelName = Label(root, text=pm25, background= color, font=('Helvetica', 20))
+        pm25LabelName.pack()
+        pm25LabelValue = Label(root, text=pm25Value, background= color, font=('Helvetica', 20))
+        pm25LabelValue.pack()
+
+        
+    except Exception as apiError:
+        api = "Error..."
+        
+DaneStacji(118)
+
+def ZmianaStacji(value):
+    cityLabel.destroy()
+    co2LabelName.destroy()
+    co2LabelValue.destroy()
+    pm10LabelName.destroy()
+    pm10LabelValue.destroy()
+    pm25LabelName.destroy()
+    pm25LabelValue.destroy()
+    DaneStacji(value)
+    
+root.mainloop()
