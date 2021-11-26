@@ -117,7 +117,7 @@ app.post('/handleUpload', function (req, res) {
     }
   });
 
- // res.render('upload.hbs');
+  res.redirect("/")
 });
 
 
