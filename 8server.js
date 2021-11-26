@@ -105,7 +105,7 @@ app.post('/handleUpload', function (req, res) {
   let form = formidable({});
   form.keepExtensions = true;
   form.multiples = true;
-  form.uploadDir = __dirname + '/static/upload/';
+  form.uploadDir = './static/upload/';
 
   form.parse(req, function (err, fields, files) {
     if (Array.isArray(files.filename)) {
